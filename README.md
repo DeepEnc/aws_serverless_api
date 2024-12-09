@@ -1,5 +1,5 @@
 
-# SERVERLESS AWS API PROJECT
+# SERVERLESS AWS API
 
 A serverless CRUD API built using AWS Lambda, DynamoDB, API Gateway, and deployed with AWS CDK (Cloud Development Kit). This API allows you to perform CRUD operations (Create, Read, Update, Delete) on tasks.
 
@@ -33,7 +33,7 @@ If you want to create everything from the beginning then perform this step on an
 pip install -r requirements.txt
 ```
 
-4. Modify the stack in the below directory or move on to the next step:
+4. Modify the stack in the below directory alc to the need or move on to the next step:
 * `aws_serverless_api`
 * `lambda`
 
