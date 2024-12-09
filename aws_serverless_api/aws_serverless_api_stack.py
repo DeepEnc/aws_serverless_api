@@ -30,7 +30,7 @@ class AwsServerlessApiStack(Stack):
             }
         )
         get_task_function = _lambda.Function(
-            self, "ReadTaskFunction",
+            self, "GetTaskFunction",
             runtime=_lambda.Runtime.PYTHON_3_9,
             handler="get_task.handler",
             code=_lambda.Code.from_asset("lambda"),
@@ -72,9 +72,8 @@ class AwsServerlessApiStack(Stack):
 
         # API Endpoints
         tasks.add_method("POST", apigateway.LambdaIntegration(create_task_function, timeout=Duration.seconds(29)))  # Create
-        tasks.add_method("GET", apigateway.LambdaIntegration(get_task_function, timeout=Duration.seconds(29)))    # Read
-
-        task = tasks.add_resource("{id}")  # Path parameter for single task
+        task = tasks.add_resource("{id}") 
+        task.add_method("GET", apigateway.LambdaIntegration(get_task_function, timeout=Duration.seconds(29)))    # Read
         task.add_method("PUT", apigateway.LambdaIntegration(update_task_function, timeout=Duration.seconds(29)))   # Update
         task.add_method("DELETE", apigateway.LambdaIntegration(delete_task_function, timeout=Duration.seconds(29)))  # Delete
         
