@@ -11,13 +11,12 @@ def handler(event, context):
     try:
         body = json.loads(event['body'])
         
-        if "task" not in body:
+        if "title" not in body or 'description' not in body:
             return {
                 "statusCode": 400,
-                "body": json.dumps({"message": "Missing 'task' field in request body"})
+                "body": json.dumps({"message": "Missing 'title' or ''description field in request body"})
             }
 
-        # Generate a new taskId
         task_id = str(uuid.uuid4())
         title = body.get("title", "Task Title")
         description = body.get("description", "Task Description")
@@ -27,7 +26,6 @@ def handler(event, context):
             "taskId": task_id,
             "title": title,
             "description": description,
-            # "task": body["task"], 
             "status": status})
 
         return {
@@ -36,7 +34,6 @@ def handler(event, context):
                 "taskId": task_id,
                 "title": title,
                 "description": description,
-                # "task": body["task"],
                 "status": status})
         }
 
