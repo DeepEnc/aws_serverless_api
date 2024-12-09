@@ -29,10 +29,10 @@ class AwsServerlessApiStack(Stack):
                 "TASKS_TABLE": table.table_name
             }
         )
-        read_task_function = _lambda.Function(
+        get_task_function = _lambda.Function(
             self, "ReadTaskFunction",
             runtime=_lambda.Runtime.PYTHON_3_9,
-            handler="read_task.handler",
+            handler="get_task.handler",
             code=_lambda.Code.from_asset("lambda"),
             environment={
                 "TASKS_TABLE": table.table_name
@@ -59,7 +59,7 @@ class AwsServerlessApiStack(Stack):
 
         # Grant Lambda Functions access to DynamoDB
         table.grant_read_write_data(create_task_function)
-        table.grant_read_write_data(read_task_function)
+        table.grant_read_write_data(get_task_function)
         table.grant_read_write_data(update_task_function)
         table.grant_read_write_data(delete_task_function)
 
@@ -72,7 +72,7 @@ class AwsServerlessApiStack(Stack):
 
         # API Endpoints
         tasks.add_method("POST", apigateway.LambdaIntegration(create_task_function, timeout=Duration.seconds(29)))  # Create
-        tasks.add_method("GET", apigateway.LambdaIntegration(read_task_function, timeout=Duration.seconds(29)))    # Read
+        tasks.add_method("GET", apigateway.LambdaIntegration(get_task_function, timeout=Duration.seconds(29)))    # Read
 
         task = tasks.add_resource("{id}")  # Path parameter for single task
         task.add_method("PUT", apigateway.LambdaIntegration(update_task_function, timeout=Duration.seconds(29)))   # Update

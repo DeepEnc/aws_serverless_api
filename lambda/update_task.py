@@ -38,7 +38,7 @@ def handler(event, context):
 
         return {
             "statusCode": 200,
-            "body": json.dumps({"message": f"Task {task_id} updated successfully"})
+            "body": json.dumps({"title":"Updated Task 1", "description":"This task has been updated", "status":"completed"})
         }
 
     except Exception as e:

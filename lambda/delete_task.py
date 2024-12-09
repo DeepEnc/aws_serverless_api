@@ -22,8 +22,8 @@ def handler(event, context):
             }
 
         return {
-            "statusCode": 200,
-            "body": json.dumps({"message": f"Task {task_id} deleted successfully"})
+            "statusCode": 204,
+            "body": json.dumps({"message": "204 No Content"})
         }
 
     except Exception as e:

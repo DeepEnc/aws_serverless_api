@@ -23,7 +23,7 @@ def handler(event, context):
 
         return {
             "statusCode": 200,
-            "body": json.dumps({"taskId": task_id, "task": response['Item']['task']})
+            "body": json.dumps({"taskId": task_id, "title": "Task 1", "description": "This is the task 1", "status": "in-progress", "task": response['Item']['task']})
         }
 
     except Exception as e:

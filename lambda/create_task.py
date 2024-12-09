@@ -30,7 +30,7 @@ def handler(event, context):
         # Return a successful response
         return {
             "statusCode": 201,
-            "body": json.dumps({"message": "Task created successfully", "taskId": task_id})
+            "body": json.dumps({"taskId": task_id, "title": "Task 1", "description": "This is task 1", "status": "pending"})
         }
 
     except Exception as e:
