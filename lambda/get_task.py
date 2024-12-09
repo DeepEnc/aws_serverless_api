@@ -8,13 +8,10 @@ table = dynamodb.Table(table_name)
 
 def handler(event, context):
     try:
-        # Get the taskId from the path parameters
         task_id = event['pathParameters']['id']
 
-        # Retrieve the item from the DynamoDB table
         response = table.get_item(Key={'taskId': task_id})
 
-        # If the item is not found, return a 404 error
         if 'Item' not in response:
             return {
                 "statusCode": 404,
@@ -23,7 +20,12 @@ def handler(event, context):
 
         return {
             "statusCode": 200,
-            "body": json.dumps({"taskId": task_id, "title": "Task 1", "description": "This is the task 1", "status": "in-progress", "task": response['Item']['task']})
+            "body": json.dumps({
+                "taskId": task_id, 
+                "title": response['Item']['title'],
+                "description": response['Item']['description'],
+                "status": "in-progress"
+            })
         }
 
     except Exception as e:
