@@ -1,5 +1,5 @@
 
-# SERVERLESS AWS API PROJECT !
+# SERVERLESS AWS API PROJECT
 
 A serverless CRUD API built using AWS Lambda, DynamoDB, and API Gateway, and deployed with AWS CDK (Cloud Development Kit). This API allows you to perform CRUD operations (Create, Read, Update, Delete) on tasks.
 
@@ -21,14 +21,16 @@ git clone git@github.com:DeepEnc/aws_serverless_api.git
 
 cd aws_serverless_api
 ```
-2. Install Dependencies
-```
-pip install -r requirements.txt
-```
-3. Initialize the CDK App
+
+2. Initialize the CDK App
 ```
 cdk init app --language python
 ```
+3. Install Dependencies
+```
+pip install -r requirements.txt
+```
+
 4. Modify the stack in the below directory or move on to the next step:
 * `aws_serverless_api`
 * `lambda`
@@ -47,13 +49,36 @@ After deployment is successful, the API Gateway URL will be provided in the outp
 ## Testing
 Here, endpoints are tested using `curl`. However, tools like Postman can be used to test the endpoints.
 
-1. Create a Task(POST/task):
+1. Create a Task (POST/tasks):
 ```
 url -X POST https://<api-gateway-url>/tasks \
 -H "Content-Type: application/json" \
 -d '{"title": "Task 1", "description": "This is task 1"}'
 ```
 where, `<api-gateway-url>` is the API GATEWAY URL value from the deploy step.
-Also. `title` and `description` can be modified.
+Also. `title` and `description` can be modified. The output consists of: `taskId`, `title`, `description`, and `status`
 
-Enjoy!
+2. Get Task (GET/tasks/{taskId})
+```
+curl -X GET https://<api-gateway-url>/tasks/{id}
+```
+Here,  use the `taskId` from the previous step or any `taskId` if already present in the DynamoDB table.
+
+3. Update task (PUT/tasks/{taskId})
+```
+curl -X PUT https://<api-gateway-url>/tasks/<taskId> \
+-H "Content-Type: application/json" \
+-d '{"title": "Task 1 Updated"}'
+```
+Here, Update the attributes: `title` and `description` alc to the needs. 
+
+4. Delete task (DELETE/tasks/{taskId})
+```
+curl -X DELETE https://<api-gateway-url>/tasks/<taskId>
+```
+This will delete the taskId from the DynamoDB table.
+
+## CLeanup
+```
+cdk destroy
+```
