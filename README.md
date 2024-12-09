@@ -64,7 +64,7 @@ Also. `title` and `description` can be modified. The output consists of: `taskId
 ```
 curl -X GET https://<api-gateway-url>/tasks/{id}
 ```
-Here,  use the `taskId` from the previous step or any `taskId` if already present in the DynamoDB table.
+Here,  use the `taskId` from the previous step or any `taskId` if already present on the DynamoDB table.
 
 3. Update task (PUT/tasks/{taskId})
 ```
@@ -78,7 +78,7 @@ Here, Update the attributes: `title` and `description` alc to the needs.
 ```
 curl -X DELETE https://<api-gateway-url>/tasks/<taskId>
 ```
-This will delete the taskId from the DynamoDB table.
+This will delete the `taskId` from the DynamoDB table.
 
 ## Cleanup
 ```
