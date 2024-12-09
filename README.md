@@ -1,58 +1,86 @@
 
-# Welcome to your CDK Python project!
+# SERVERLESS AWS API
 
-This is a blank project for CDK development with Python.
+A serverless CRUD API built using AWS Lambda, DynamoDB, API Gateway, and deployed with AWS CDK (Cloud Development Kit). This API allows you to perform CRUD operations (Create, Read, Update, Delete) on tasks.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## Requirements
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+* AWS CLI installed and configured.
+* Node.js (for AWS CDK).
+* Python 3.x (for Lambda function development).
 
-To manually create a virtualenv on MacOS and Linux:
-
+## Installation
+Install AWS CDK:
 ```
-$ python3 -m venv .venv
+npm install -g aws-cdk
 ```
-
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
-
+## Setup
+1. Clone the repo
 ```
-$ source .venv/bin/activate
+git clone git@github.com:DeepEnc/aws_serverless_api.git
+
+cd aws_serverless_api
 ```
 
-If you are a Windows platform, you would activate the virtualenv like this:
-
+2. Initialize the CDK App
 ```
-% .venv\Scripts\activate.bat
+cdk init app --language python
 ```
+If you want to create everything from the beginning then perform this step on another directory and copy only remaining files from this repo. Else, this repo contains all the required CDK project structure. Hence, skip to next step. 
 
-Once the virtualenv is activated, you can install the required dependencies.
-
+3. Install Dependencies
 ```
-$ pip install -r requirements.txt
-```
-
-At this point you can now synthesize the CloudFormation template for this code.
-
-```
-$ cdk synth
+pip install -r requirements.txt
 ```
 
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
+4. Modify the stack in the below directory alc to the need or move on to the next step:
+* `aws_serverless_api`
+* `lambda`
 
-## Useful commands
+5. Bootstrap CDK Environment
+```
+cdk bootstrap
+```
 
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
+6. Deploy the Stack
+```
+cdk deploy
+```
+After deployment is successful, the API Gateway URL will be provided in the output.
 
-Enjoy!
+## Testing
+Here, endpoints are tested using `curl`. However, tools like Postman can be used to test the endpoints.
+
+1. Create a Task (POST/tasks):
+```
+url -X POST https://<api-gateway-url>/tasks \
+-H "Content-Type: application/json" \
+-d '{"title": "Task 1", "description": "This is task 1"}'
+```
+where, `<api-gateway-url>` is the API GATEWAY URL value from the deploy step.
+Also. `title` and `description` can be modified. The output consists of: `taskId`, `title`, `description`, and `status`
+
+2. Get Task (GET/tasks/{taskId})
+```
+curl -X GET https://<api-gateway-url>/tasks/{id}
+```
+Here,  use the `taskId` from the previous step or any `taskId` if already present in the DynamoDB table.
+
+3. Update task (PUT/tasks/{taskId})
+```
+curl -X PUT https://<api-gateway-url>/tasks/<taskId> \
+-H "Content-Type: application/json" \
+-d '{"title": "Task 1 Updated"}'
+```
+Here, Update the attributes: `title` and `description` alc to the needs. 
+
+4. Delete task (DELETE/tasks/{taskId})
+```
+curl -X DELETE https://<api-gateway-url>/tasks/<taskId>
+```
+This will delete the taskId from the DynamoDB table.
+
+## Cleanup
+```
+cdk destroy
+```
