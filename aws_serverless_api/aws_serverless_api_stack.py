@@ -24,25 +24,37 @@ class AwsServerlessApiStack(Stack):
             self, "CreateTaskFunction",
             runtime=_lambda.Runtime.PYTHON_3_9,
             handler="create_task.handler",
-            code=_lambda.Code.from_asset("lambda")
+            code=_lambda.Code.from_asset("lambda"),
+            environment={
+                "TASKS_TABLE": table.table_name
+            }
         )
         read_task_function = _lambda.Function(
             self, "ReadTaskFunction",
             runtime=_lambda.Runtime.PYTHON_3_9,
             handler="read_task.handler",
-            code=_lambda.Code.from_asset("lambda")
+            code=_lambda.Code.from_asset("lambda"),
+            environment={
+                "TASKS_TABLE": table.table_name
+            }
         )
         update_task_function = _lambda.Function(
             self, "UpdateTaskFunction",
             runtime=_lambda.Runtime.PYTHON_3_9,
             handler="update_task.handler",
-            code=_lambda.Code.from_asset("lambda")
+            code=_lambda.Code.from_asset("lambda"),
+            environment={
+                "TASKS_TABLE": table.table_name
+            }
         )
         delete_task_function = _lambda.Function(
             self, "DeleteTaskFunction",
             runtime=_lambda.Runtime.PYTHON_3_9,
             handler="delete_task.handler",
-            code=_lambda.Code.from_asset("lambda")
+            code=_lambda.Code.from_asset("lambda"),
+            environment={
+                "TASKS_TABLE": table.table_name
+            }
         )
 
         # Grant Lambda Functions access to DynamoDB
