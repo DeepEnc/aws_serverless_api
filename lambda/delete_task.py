@@ -8,13 +8,10 @@ table = dynamodb.Table(table_name)
 
 def handler(event, context):
     try:
-        # Get the taskId from the path parameters
         task_id = event['pathParameters']['id']
 
-        # Delete the item from the DynamoDB table
-        response = table.delete_item(Key={'taskId': task_id})
+        response = table.delete_item(Key={'taskId': task_id}, ReturnValues="ALL_OLD")
 
-        # If the item was not found, return a 404 error
         if 'Attributes' not in response:
             return {
                 "statusCode": 404,
@@ -23,7 +20,7 @@ def handler(event, context):
 
         return {
             "statusCode": 204,
-            "body": json.dumps({"message": "204 No Content"})
+            "body": ""
         }
 
     except Exception as e:
