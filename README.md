@@ -1,7 +1,7 @@
 
 # SERVERLESS AWS API PROJECT
 
-A serverless CRUD API built using AWS Lambda, DynamoDB, and API Gateway, and deployed with AWS CDK (Cloud Development Kit). This API allows you to perform CRUD operations (Create, Read, Update, Delete) on tasks.
+A serverless CRUD API built using AWS Lambda, DynamoDB, API Gateway, and deployed with AWS CDK (Cloud Development Kit). This API allows you to perform CRUD operations (Create, Read, Update, Delete) on tasks.
 
 ## Requirements
 
@@ -26,6 +26,8 @@ cd aws_serverless_api
 ```
 cdk init app --language python
 ```
+If you want to create everything from the beginning then perform this step on another directory and copy only remaining files from this repo. Else, this repo contains all the required CDK project structure. Hence, skip to next step. 
+
 3. Install Dependencies
 ```
 pip install -r requirements.txt
@@ -35,12 +37,12 @@ pip install -r requirements.txt
 * `aws_serverless_api`
 * `lambda`
 
-4. Bootstrap CDK Environment
+5. Bootstrap CDK Environment
 ```
 cdk bootstrap
 ```
 
-5. Deploy the Stack
+6. Deploy the Stack
 ```
 cdk deploy
 ```
@@ -78,7 +80,7 @@ curl -X DELETE https://<api-gateway-url>/tasks/<taskId>
 ```
 This will delete the taskId from the DynamoDB table.
 
-## CLeanup
+## Cleanup
 ```
 cdk destroy
 ```
